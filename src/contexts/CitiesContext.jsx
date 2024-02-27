@@ -41,6 +41,7 @@ function reducer(state, action) {
                 ...state,
                 isLoading: false,
                 cities: state.cities.filter(city => city.id !== action.payload),
+                currentCity: {},
             }
         case "rejected":
             return {
@@ -92,6 +93,7 @@ function CitiesProvider({ children }) {
     }
 
     async function deleteCity(id) {
+        if (Number(id) === currentCity.id) return;
         dispatch({ type: "loading" });
         try {
             await fetch(`${URL}/${id}`, { method: "DELETE" });
